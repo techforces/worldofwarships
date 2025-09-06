@@ -8,12 +8,10 @@ function App() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  console.log(data);
-
   return (
     <>
-      <div>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+      <div className="w-full bg-amber-200">
+        <pre>{JSON.stringify(data?.vehicles[0], null, 2)}</pre>
       </div>
     </>
   );
