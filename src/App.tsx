@@ -1,6 +1,8 @@
 import { useQuery } from "@apollo/client/react";
 import { GET_WARSHIPS } from "./definitions/query";
 import "./App.css";
+import Navigation from "./components/Navigation/Navigation";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
   const { data, loading, error } = useQuery(GET_WARSHIPS);
@@ -10,8 +12,13 @@ function App() {
 
   return (
     <>
-      <div className="w-full bg-amber-200">
-        <pre>{JSON.stringify(data?.vehicles[0], null, 2)}</pre>
+      <div className="background w-full h-[100vh] flex flex-col">
+        {/* <pre>{JSON.stringify(data?.vehicles[200], null, 2)}</pre> */}
+
+        <Navigation />
+        <div className="flex h-full w-full">
+          <Sidebar />
+        </div>
       </div>
     </>
   );
