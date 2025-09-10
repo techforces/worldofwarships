@@ -1,5 +1,5 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import type { VehicleList } from "./types";
+import type { VehicleList } from "./queryTypes";
 
 export const GET_WARSHIPS: TypedDocumentNode<VehicleList> = gql`
   query Vehicles($languageCode: String = "ru") {

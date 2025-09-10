@@ -2,7 +2,7 @@ import SidebarButton from "./SidebarButton";
 
 const Sidebar = () => {
   return (
-    <div className="w-[18.75rem] h-[100%] flex flex-col justify-between pt-6 pb-10">
+    <div className="w-[18.75rem] h-full flex flex-col justify-between pt-6 pb-10 ">
       <div className="flex flex-col w-full">
         <SidebarButton icon="featured" label="Главное" variant="primary" />
         <SidebarButton icon="ship" label="Корабли" variant="secondary" active />
