@@ -1,0 +1,48 @@
+.sb-radial-gradient--primary {
+  background: radial-gradient(
+    closest-side at center,
+    rgba(132, 96, 47, 1) 29%,
+    rgba(132, 96, 47, 0) 100%
+  );
+}
+
+.sb-radial-gradient--secondary {
+  background: radial-gradient(
+    closest-side at center,
+    rgba(76, 214, 232, 1) 29%,
+    rgba(76, 214, 232, 0) 100%
+  );
+}
+
+.sb-radial-gradient--hover--secondary {
+  background: radial-gradient(
+    closest-side at center,
+    rgba(76, 214, 232, 0.4) 29%,
+    rgba(76, 214, 232, 0) 100%
+  );
+}
+
+.sb-line--primary {
+  background-color: #84602f;
+}
+
+.sb-line--secondary {
+  background-color: #4cd6e8;
+}
+
+.sb-line--gold {
+  background-color: #857641;
+}
+
+.sb-line--promo {
+  background-color: #ffebd4;
+}
+
+.sb-background--gold {
+  background: linear-gradient(
+    to right,
+    rgba(243, 191, 91, 0.6) 0%,
+    rgba(243, 191, 91, 0.4) 10%,
+    rgba(243, 191, 91, 0) 100%
+  );
+}
