@@ -60,7 +60,7 @@ const SidebarButton = ({
         <button
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className={`relative w-[10rem] h-[3rem] flex duration-200 ${
+          className={`relative w-full h-[3rem] flex duration-200 ${
             isHovered ? "pl-[1.5rem]" : "pl-[1rem]"
           }`}
         >
@@ -68,7 +68,7 @@ const SidebarButton = ({
             className={`absolute top-0 left-0 h-full w-[2px] sb-line--${variant}`}
           ></div>
           <img
-            className={`absolute top-0 left-0 w-full h-full object-cover duration-200 ${
+            className={`absolute top-0 left-0 w-[10rem] h-full object-cover duration-200 ${
               !isHovered && "-translate-x-2"
             }`}
             src="/svg-background/promo.svg"

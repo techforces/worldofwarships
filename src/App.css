@@ -4,6 +4,10 @@ body {
   font-family: ALSWagon;
 }
 
+* {
+  user-select: none;
+}
+
 .background {
   background-image: url("/images/background.png");
   background-size: cover;

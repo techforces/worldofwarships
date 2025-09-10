@@ -12,11 +12,11 @@ function App() {
 
   return (
     <>
-      <div className="background w-full h-[100vh] flex flex-col">
+      <div className="background w-full h-[100vh] flex flex-col ">
         {/* <pre>{JSON.stringify(data?.vehicles[200], null, 2)}</pre> */}
 
         <Navigation />
-        <div className="flex h-full w-full">
+        <div className="flex h-full w-full bg-[rgba(0,0,0,0.2)]">
           <Sidebar />
         </div>
       </div>
