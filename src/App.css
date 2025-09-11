@@ -7,7 +7,26 @@ body {
 
 * {
   user-select: none;
+
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(97, 125, 168, 0.5) transparent;
 }
+
+/* 
+*::-webkit-scrollbar {
+  border-radius: 0px;
+  width: 5px;
+}
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 0px;
+}
+*::-webkit-scrollbar-thumb {
+  width: 1px;
+  background-color: rgba(97, 125, 168, 0.5);
+  border-radius: 0px;
+} */
 
 .background {
   background-image: url("/images/background.png");
