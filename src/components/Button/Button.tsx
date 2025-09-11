@@ -1,4 +1,4 @@
-// Plain button
+import "./button.css";
 
 interface ButtonProps {
   label?: string;
@@ -9,9 +9,11 @@ const Button = ({ label, handleClick }: ButtonProps) => {
   return (
     <button
       onClick={handleClick}
-      className="border border-white rounded-xs w-max h-max px-10 py-3"
+      className="button border border-white rounded-xs w-max h-12 px-8 duration-200 shrink-0"
     >
-      <span className="text-white uppercase font-bold text-lg">{label}</span>
+      <span className="text-white uppercase font-bold text-base">
+        {label ? label : "Button label"}
+      </span>
     </button>
   );
 };

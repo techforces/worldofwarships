@@ -24,7 +24,7 @@ const SidebarButton = ({
     case "gold":
       return (
         <button
-          onMouseEnter={() => setIsHovered(true)}
+          onMouseOver={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           className={`relative w-full h-[3rem] flex relatve duration-200 ${
             isHighlighted ? "pl-[1.5rem]" : "pl-[1.25rem]"
@@ -58,7 +58,7 @@ const SidebarButton = ({
     case "promo":
       return (
         <button
-          onMouseEnter={() => setIsHovered(true)}
+          onMouseOver={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           className={`relative w-full h-[3rem] flex duration-200 ${
             isHovered ? "pl-[1.5rem]" : "pl-[1rem]"
@@ -90,7 +90,7 @@ const SidebarButton = ({
     default:
       return (
         <button
-          onMouseEnter={() => setIsHovered(true)}
+          onMouseOver={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           className={`relative w-full h-[3rem] flex relatve duration-200 ${
             isHighlighted ? "pl-[1.5rem]" : "pl-[1.25rem]"
