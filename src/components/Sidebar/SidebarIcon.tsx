@@ -14,18 +14,19 @@ export type SidebarIconType = keyof typeof iconSources;
 
 interface SidebarIconProps {
   icon?: SidebarIconType;
-  classNames?: string;
+  className?: string;
 }
 
 const SidebarIcon = ({
   icon = "featured",
-  classNames = "",
+  className = "",
 }: SidebarIconProps) => {
   return (
     <img
-      className={`w-full duration-200 ${classNames} `}
+      className={`w-full duration-200 ${className} `}
       src={iconSources[icon]}
       alt={`${icon} icon`}
+      draggable={false}
     />
   );
 };

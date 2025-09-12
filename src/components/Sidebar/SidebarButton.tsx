@@ -123,7 +123,7 @@ const SidebarButton = ({
             <div className="w-[2.5rem]">
               <SidebarIcon
                 icon={icon}
-                classNames={
+                className={
                   isHighlighted || icon == "ten_years"
                     ? "opacity-100"
                     : "opacity-75"
