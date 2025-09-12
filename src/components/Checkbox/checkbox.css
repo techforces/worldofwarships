@@ -1,0 +1,15 @@
+input[type="checkbox"] {
+  appearance: none;
+  background-color: #1a1f28;
+  margin: 0;
+  font: inherit;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  border: 1px solid #4b4e56;
+}
+
+input[type="checkbox"]:checked {
+  background-image: url("/icons/checkbox-tick.svg");
+  background-position: center center;
+}
