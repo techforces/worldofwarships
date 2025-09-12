@@ -7,14 +7,12 @@ body {
 
 * {
   user-select: none;
-
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: rgba(97, 125, 168, 0.5) transparent;
 }
 
-/* 
-*::-webkit-scrollbar {
+/* *::-webkit-scrollbar {
   border-radius: 0px;
   width: 5px;
 }

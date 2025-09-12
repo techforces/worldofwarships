@@ -44,9 +44,8 @@ const SidebarButton = ({
             ></div>
           </div>
           <div className="flex items-center justify-start w-full h-full gap-0.5 relative z-[1]">
-            <div className="w-[2.5rem]">
-              <Icon icon={icon} />
-            </div>
+            <Icon icon={icon} className="w-[2.5rem]" />
+
             <span
               className={`block text-[#FFCC66] tracking-[0.2px] uppercase font-bold text-lg duration-200 opacity-100`}
             >
@@ -76,9 +75,8 @@ const SidebarButton = ({
           />
 
           <div className="flex items-center justify-start w-full h-full gap-6 relative z-[1]">
-            <div className="w-[1rem] h-[1rem]">
-              <Icon icon={icon} />
-            </div>
+            <Icon icon={icon} className="w-[1rem] h-[1rem]" />
+
             <span
               className={`block text-[#ffebd4] tracking-[0.2px] uppercase font-bold text-lg duration-200`}
             >
@@ -120,16 +118,15 @@ const SidebarButton = ({
           </div>
 
           <div className="flex items-center justify-start w-full h-full gap-0.5 relative z-[1]">
-            <div className="w-[2.5rem]">
-              <Icon
-                icon={icon}
-                className={
-                  isHighlighted || icon == "ten_years"
-                    ? "opacity-100"
-                    : "opacity-75"
-                }
-              />
-            </div>
+            <Icon
+              icon={icon}
+              className={`w-[2.5rem] ${
+                isHighlighted || icon == "ten_years"
+                  ? "opacity-100"
+                  : "opacity-75"
+              }`}
+            />
+
             <span
               className={`block text-white tracking-[0.2px] uppercase font-bold text-lg duration-200 ${
                 isHighlighted ? "opacity-100" : "opacity-75"

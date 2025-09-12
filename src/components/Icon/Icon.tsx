@@ -39,7 +39,7 @@ interface IconProps {
 const Icon = ({ icon = "featured", className = "" }: IconProps) => {
   return (
     <img
-      className={`w-full duration-200 ${className} `}
+      className={`duration-200 ${className} `}
       src={iconSources[icon]}
       alt={`${icon} icon`}
       draggable={false}

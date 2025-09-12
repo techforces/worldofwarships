@@ -1,0 +1,7 @@
+:root {
+  --scrollbar-width: 0px;
+}
+
+.vc-container {
+  padding-right: calc(4rem - var(--scrollbar-width));
+}
