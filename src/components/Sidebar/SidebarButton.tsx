@@ -1,9 +1,9 @@
 import { useState } from "react";
-import SidebarIcon, { type SidebarIconType } from "./SidebarIcon";
+import Icon, { type IconType } from "../Icon/Icon";
 import "./sidebarButton.css";
 
 interface SidebarButtonProps {
-  icon?: SidebarIconType;
+  icon?: IconType;
   label?: string;
   variant?: "primary" | "secondary" | "promo" | "gold";
   active?: boolean;
@@ -45,7 +45,7 @@ const SidebarButton = ({
           </div>
           <div className="flex items-center justify-start w-full h-full gap-0.5 relative z-[1]">
             <div className="w-[2.5rem]">
-              <SidebarIcon icon={icon} />
+              <Icon icon={icon} />
             </div>
             <span
               className={`block text-[#FFCC66] tracking-[0.2px] uppercase font-bold text-lg duration-200 opacity-100`}
@@ -77,7 +77,7 @@ const SidebarButton = ({
 
           <div className="flex items-center justify-start w-full h-full gap-6 relative z-[1]">
             <div className="w-[1rem] h-[1rem]">
-              <SidebarIcon icon={icon} />
+              <Icon icon={icon} />
             </div>
             <span
               className={`block text-[#ffebd4] tracking-[0.2px] uppercase font-bold text-lg duration-200`}
@@ -121,7 +121,7 @@ const SidebarButton = ({
 
           <div className="flex items-center justify-start w-full h-full gap-0.5 relative z-[1]">
             <div className="w-[2.5rem]">
-              <SidebarIcon
+              <Icon
                 icon={icon}
                 className={
                   isHighlighted || icon == "ten_years"

@@ -57,7 +57,7 @@ const VehicleView = ({ data, setItemIndex }: VehicleViewProps) => {
                   isLoaded ? "opacity-100" : "opacity-0"
                 } duration-500 delay-400`}
               >
-                <p className="text-xl min-h-0 h-[300px] max-h-max leading-[165%] shrink">
+                <p className="text-xl min-h-0 h-[18.75rem] max-h-max leading-[165%] shrink">
                   {data.description}
                 </p>
               </div>
