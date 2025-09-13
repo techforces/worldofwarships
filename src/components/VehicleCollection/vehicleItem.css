@@ -6,7 +6,7 @@
   height: calc(100% - 2rem);
   width: 2px;
   background: #ffffff;
-  opacity: 0.45;
+  opacity: 0.15;
   border-radius: 2px;
   z-index: 4;
 }

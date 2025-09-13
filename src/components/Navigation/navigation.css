@@ -1,0 +1,10 @@
+.search-input::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0.5rem;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  background-image: url("/public/icons/search.svg");
+}

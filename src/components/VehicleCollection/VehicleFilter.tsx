@@ -127,7 +127,6 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
 
   const closeFilter = useCallback(
     (e: MouseEvent) => {
-      console.log(filterButtonRef.current, e.target);
       if (
         isOpen &&
         filterContainerRef.current &&
@@ -143,6 +142,22 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
   useEffect(() => {
     document.addEventListener("mousedown", closeFilter);
   }, [filterContainerRef.current, isOpen]);
+
+  const areFiltersEmpty = useMemo(() => {
+    return (
+      selectedFilters.levels.length === 0 &&
+      selectedFilters.types.length === 0 &&
+      selectedFilters.nations.length === 0
+    );
+  }, [selectedFilters]);
+
+  const resetFilters = useCallback(() => {
+    setSelectedFilters({
+      levels: [],
+      types: [],
+      nations: [],
+    });
+  }, [setSelectedFilters]);
 
   return (
     <div className="vehicle-filter relative w-full h-max flex justify-between p-[0.625rem] z-1">
@@ -160,14 +175,22 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
         </span>
         <Icon icon="arrow" className="w-6 h-6 opacity-75" />
       </button>
-
       {isOpen && (
         <div
           ref={filterContainerRef}
           className="absolute left-0 top-[100%] w-full h-max backdrop-blur-2xl"
         >
-          <div className="w-full h-10 bg-[rgba(255,255,255,0.15)] flex items-center px-4">
+          <div className="w-full h-10 bg-[rgba(255,255,255,0.15)] flex items-center px-4 gap-6">
             <h2 className="font-bold text-base tracking-[0.7px]">Фильтры</h2>
+
+            {!areFiltersEmpty && (
+              <button
+                onClick={resetFilters}
+                className="opacity-75 hover:opacity-100 duration-200"
+              >
+                <span>Сбросить все</span>
+              </button>
+            )}
           </div>
           <div className="w-full h-[100%] bg-[rgba(255,255,255,0.05)] flex gap-3">
             <div className="flex flex-col gap-3 px-10 py-6">
@@ -183,7 +206,9 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
                       className={`flex gap-2 h-8 items-center ${
                         isDisabled && "opacity-40"
                       }`}
-                      onClick={() => toggleFilter("levels", level)}
+                      onClick={() => {
+                        if (!isDisabled) toggleFilter("levels", level);
+                      }}
                     >
                       <Checkbox
                         checked={isChecked}
@@ -210,9 +235,15 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
                       className={`flex gap-2 h-8 items-center ${
                         isDisabled && "opacity-40"
                       }`}
-                      onClick={() => toggleFilter("types", type)}
+                      onClick={() => {
+                        if (!isDisabled) toggleFilter("types", type);
+                      }}
                     >
-                      <Checkbox checked={isChecked} readOnly />
+                      <Checkbox
+                        checked={isChecked}
+                        disabled={isDisabled}
+                        readOnly
+                      />
                       <Icon icon={type as IconType} />
                     </div>
                   );
@@ -232,9 +263,15 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
                       className={`flex gap-2 h-8 items-center ${
                         isDisabled && "opacity-40"
                       }`}
-                      onClick={() => toggleFilter("nations", nation)}
+                      onClick={() => {
+                        if (!isDisabled) toggleFilter("nations", nation);
+                      }}
                     >
-                      <Checkbox checked={isChecked} readOnly />
+                      <Checkbox
+                        checked={isChecked}
+                        disabled={isDisabled}
+                        readOnly
+                      />
                       <Icon icon={nation as IconType} className="h-4" />
                     </div>
                   );

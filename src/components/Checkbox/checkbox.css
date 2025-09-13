@@ -17,3 +17,7 @@ input[type="checkbox"]:checked {
 div:has(> input[type="checkbox"]):hover > input[type="checkbox"] {
   border: 1px solid rgba(255, 255, 255, 0.75);
 }
+
+div:has(> input[type="checkbox"]):hover > input[type="checkbox"]:disabled {
+  border: 1px solid #4b4e56;
+}
