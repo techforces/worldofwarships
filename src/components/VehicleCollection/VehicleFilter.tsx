@@ -1,5 +1,5 @@
-import { useState } from "react";
-import type { Vehicle, VehicleList } from "../../utils/queryTypes";
+import { useCallback, useEffect, useState, useMemo } from "react";
+import type { VehicleList } from "../../utils/queryTypes";
 import Icon, { type IconType } from "../Icon/Icon";
 import Checkbox from "../Checkbox/Checkbox";
 import { toRoman } from "../../utils/utils";
@@ -15,6 +15,11 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
     levels: [],
     types: [],
     nations: [],
+  });
+  const [availableOptions, setAvailableOptions] = useState({
+    levels: new Set<number>(),
+    types: new Set<string>(),
+    nations: new Set<string>(),
   });
 
   const toggleFilter = (
@@ -46,29 +51,57 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
     return matchesLevel && matchesType && matchesNation;
   });
 
-  // const availableOptions = () => {
-  //   const available = {
-  //     levels: new Set(),
-  //     types: new Set(),
-  //     nations: new Set(),
-  //   };
+  // Set of available levels. Can grey out unavailable options with .has(value)
+  const updateAvailableOptions = useCallback(
+    (key: keyof typeof availableOptions) => {
+      const set = new Set<number | string | undefined>(
+        data.vehicles
+          .filter((vehicle) => {
+            const matchesLevel =
+              selectedFilters.levels.length === 0 ||
+              selectedFilters["levels"].includes(vehicle.level);
+            const matchesType =
+              selectedFilters.types.length === 0 ||
+              selectedFilters["types"].includes(vehicle.type.name);
+            const matchesNation =
+              selectedFilters.nations.length === 0 ||
+              selectedFilters["nations"].includes(vehicle.nation.name);
 
-  //   filteredData.forEach((vehicle) => {
-  //     available.levels.add(vehicle.level);
-  //     available.types.add(vehicle.type.name);
-  //     available.types.add(vehicle.nation.name);
-  //   });
+            if (key == "levels") return matchesType && matchesNation;
+            if (key == "types") return matchesLevel && matchesNation;
+            if (key == "nations") return matchesLevel && matchesType;
+          })
+          .map((vehicle) => {
+            if (key == "levels") return vehicle.level;
+            if (key == "types") return vehicle.type.name;
+            if (key == "nations") return vehicle.nation.name;
+          })
+      );
 
-  //   return available;
-  // };
+      setAvailableOptions((prev) => ({ ...prev, [key]: set }));
+    },
+    [data.vehicles, selectedFilters]
+  );
+
+  useEffect(() => {
+    updateAvailableOptions("levels");
+    updateAvailableOptions("types");
+    updateAvailableOptions("nations");
+
+    // console.log(availableOptions);
+  }, [updateAvailableOptions]);
 
   console.log(filteredData);
 
-  const levels = [
-    ...new Set(
-      data.vehicles.map((vehicle) => vehicle.level).sort((a, b) => a - b)
-    ),
-  ];
+  const levels = useMemo(
+    () => [
+      ...new Set(
+        data.vehicles.map((vehicle) => vehicle.level).sort((a, b) => a - b)
+      ),
+    ],
+    [data.vehicles]
+  );
+
   const typeOrder = {
     submarine: 1,
     destroyer: 2,
@@ -77,17 +110,22 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
     aircarrier: 5,
     default: Number.MAX_VALUE,
   };
-  const types = [
-    ...new Set(data.vehicles.map((vehicle) => vehicle.type.name)),
-  ].sort((a, b) =>
-    ((typeOrder as Record<string, number>)[a] || typeOrder.default) -
-    ((typeOrder as Record<string, number>)[b] || typeOrder.default)
-      ? 1
-      : 0
+  const types = useMemo(
+    () =>
+      [...new Set(data.vehicles.map((vehicle) => vehicle.type.name))].sort(
+        (a, b) =>
+          ((typeOrder as Record<string, number>)[a] || typeOrder.default) -
+          ((typeOrder as Record<string, number>)[b] || typeOrder.default)
+            ? 1
+            : 0
+      ),
+    [data.vehicles]
   );
-  const flags = [
-    ...new Set(data.vehicles.map((vehicle) => vehicle.nation.name)),
-  ];
+
+  const flags = useMemo(
+    () => [...new Set(data.vehicles.map((vehicle) => vehicle.nation.name))],
+    [data.vehicles]
+  );
 
   const divider = (
     <div className="flex self-stretch w-max">
@@ -119,8 +157,8 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
             <div className="flex flex-col gap-1">
               {levels.map((level: number) => {
                 const isChecked = selectedFilters["levels"].includes(level);
-                // const isDisabled = !availableOptions().levels.has(level);
-                const isDisabled = false;
+                const isDisabled = !availableOptions.levels?.has(level);
+
                 return (
                   <div
                     key={`${level}-level-checkbox`}
@@ -146,10 +184,14 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
             <div className="flex flex-col gap-1">
               {types.map((type) => {
                 const isChecked = selectedFilters["types"].includes(type);
+                const isDisabled = !availableOptions.types?.has(type);
+
                 return (
                   <div
                     key={`${type}-type-checkbox`}
-                    className="flex gap-2 h-8 items-center"
+                    className={`flex gap-2 h-8 items-center ${
+                      isDisabled && "opacity-40"
+                    }`}
                     onClick={() => toggleFilter("types", type)}
                   >
                     <Checkbox checked={isChecked} readOnly />
@@ -165,10 +207,13 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
             <div className="grid grid-cols-2 gap-x-8 gap-y-1">
               {flags.map((nation) => {
                 const isChecked = selectedFilters["nations"].includes(nation);
+                const isDisabled = !availableOptions.nations?.has(nation);
                 return (
                   <div
                     key={`${nation}-nation-checkbox`}
-                    className="flex gap-2 items-cente h-8 items-center"
+                    className={`flex gap-2 h-8 items-center ${
+                      isDisabled && "opacity-40"
+                    }`}
                     onClick={() => toggleFilter("nations", nation)}
                   >
                     <Checkbox checked={isChecked} readOnly />
