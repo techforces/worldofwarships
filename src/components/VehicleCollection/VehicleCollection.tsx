@@ -6,10 +6,17 @@ import "./vehicleCollection.css";
 
 interface VehicleCollectionProps {
   data: VehicleList;
+  filteredData: Vehicle[];
+  setFilteredData: (newData: Vehicle[]) => void;
   setItemIndex: (index: number) => void;
 }
 
-const VehicleCollection = ({ data, setItemIndex }: VehicleCollectionProps) => {
+const VehicleCollection = ({
+  data,
+  filteredData,
+  setFilteredData,
+  setItemIndex,
+}: VehicleCollectionProps) => {
   const vehicleListContainer = useRef<HTMLDivElement>(null);
 
   // Фикс для ровного контейнера
@@ -31,14 +38,14 @@ const VehicleCollection = ({ data, setItemIndex }: VehicleCollectionProps) => {
         <h1 className="tracking-[1.4px] text-3xl uppercase font-bold">
           Корабли
         </h1>
-        <VehicleFilter data={data} />
+        <VehicleFilter data={data} setFilteredData={setFilteredData} />
       </div>
 
       <div
         ref={vehicleListContainer}
-        className="vc-container w-full h-full box-border pt-4 pr-[4rem] grid grid-cols-3 gap-5 overflow-y-scroll relative"
+        className="vc-container w-full h-full box-border pt-4 pb-10 pr-[4rem] grid grid-cols-3 gap-5 overflow-y-scroll relative"
       >
-        {data.vehicles.map((vehicle: Vehicle, index: number) => (
+        {filteredData.map((vehicle: Vehicle, index: number) => (
           <VehicleItem
             key={`vehicle-item-${index}`}
             index={index}

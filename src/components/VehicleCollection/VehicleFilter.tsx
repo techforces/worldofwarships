@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import type { VehicleList } from "../../utils/queryTypes";
+import { useState, useMemo, useEffect } from "react";
+import type { Vehicle, VehicleList } from "../../utils/queryTypes";
 import Icon, { type IconType } from "../Icon/Icon";
 import Checkbox from "../Checkbox/Checkbox";
 import { toRoman } from "../../utils/utils";
@@ -7,9 +7,10 @@ import "./vehicleFilter.css";
 
 interface VehicleFilterProps {
   data: VehicleList;
+  setFilteredData: (newData: Vehicle[]) => void;
 }
 
-const VehicleFilter = ({ data }: VehicleFilterProps) => {
+const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState({
     levels: [],
@@ -76,8 +77,6 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
     return result;
   }, [data.vehicles, selectedFilters]);
 
-  console.log(filteredData);
-
   const levels = useMemo(
     () => [
       ...new Set(
@@ -118,6 +117,8 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
       <div className="w-[1px] bg-white opacity-10" />
     </div>
   );
+
+  useEffect(() => setFilteredData(filteredData), [filteredData]);
 
   return (
     <div className="vehicle-filter relative w-full h-max flex justify-between p-[0.625rem] z-1">
