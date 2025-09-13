@@ -13,3 +13,7 @@ input[type="checkbox"]:checked {
   background-image: url("/icons/checkbox-tick.svg");
   background-position: center center;
 }
+
+div:has(> input[type="checkbox"]):hover > input[type="checkbox"] {
+  border: 1px solid rgba(255, 255, 255, 0.75);
+}
