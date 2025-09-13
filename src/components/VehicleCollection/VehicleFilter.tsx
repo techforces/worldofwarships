@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import type { Vehicle, VehicleList } from "../../utils/queryTypes";
 import Icon, { type IconType } from "../Icon/Icon";
 import Checkbox from "../Checkbox/Checkbox";
@@ -11,6 +11,8 @@ interface VehicleFilterProps {
 }
 
 const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
+  const filterContainerRef = useRef(null);
+  const filterButtonRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState({
     levels: [],
@@ -118,12 +120,39 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
     </div>
   );
 
-  useEffect(() => setFilteredData(filteredData), [filteredData]);
+  useEffect(
+    () => setFilteredData(filteredData),
+    [filteredData, setFilteredData]
+  );
+
+  const closeFilter = useCallback(
+    (e: MouseEvent) => {
+      console.log(filterButtonRef.current, e.target);
+      if (
+        isOpen &&
+        filterContainerRef.current &&
+        !filterContainerRef.current?.contains(e.target) &&
+        e.target != filterButtonRef.current
+      ) {
+        setIsOpen(false);
+      }
+    },
+    [filterContainerRef, isOpen]
+  );
+
+  useEffect(() => {
+    document.addEventListener("mousedown", closeFilter);
+  }, [filterContainerRef.current, isOpen]);
 
   return (
     <div className="vehicle-filter relative w-full h-max flex justify-between p-[0.625rem] z-1">
-      <button onClick={() => setIsOpen(!isOpen)}>
-        <Icon icon="filter" className="w-6 h-6" />
+      <button
+        ref={filterButtonRef}
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+      >
+        <Icon icon="filter" className="w-6 h-6 pointer-events-none" />
       </button>
       <button className="flex gap-2 items-center">
         <span className="text-base w-max font-normal opacity-75">
@@ -132,84 +161,89 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
         <Icon icon="arrow" className="w-6 h-6 opacity-75" />
       </button>
 
-      <div className="absolute left-0 top-[100%] w-full h-max backdrop-blur-2xl">
-        <div className="w-full h-10 bg-[rgba(255,255,255,0.15)] flex items-center px-4">
-          <h2 className="font-bold text-base tracking-[0.7px]">Фильтры</h2>
-        </div>
-        <div className="w-full h-[100%] bg-[rgba(255,255,255,0.05)] flex gap-3">
-          <div className="flex flex-col gap-3 px-10 py-6">
-            <h3 className="font-bold text-base tracking-[0.5px]">Уровень</h3>
-            <div className="flex flex-col gap-1">
-              {levels.map((level: number) => {
-                const isChecked = selectedFilters["levels"].includes(level);
-                const isDisabled = !availableOptions.levels?.has(level);
+      {isOpen && (
+        <div
+          ref={filterContainerRef}
+          className="absolute left-0 top-[100%] w-full h-max backdrop-blur-2xl"
+        >
+          <div className="w-full h-10 bg-[rgba(255,255,255,0.15)] flex items-center px-4">
+            <h2 className="font-bold text-base tracking-[0.7px]">Фильтры</h2>
+          </div>
+          <div className="w-full h-[100%] bg-[rgba(255,255,255,0.05)] flex gap-3">
+            <div className="flex flex-col gap-3 px-10 py-6">
+              <h3 className="font-bold text-base tracking-[0.5px]">Уровень</h3>
+              <div className="flex flex-col gap-1">
+                {levels.map((level: number) => {
+                  const isChecked = selectedFilters["levels"].includes(level);
+                  const isDisabled = !availableOptions.levels?.has(level);
 
-                return (
-                  <div
-                    key={`${level}-level-checkbox`}
-                    className={`flex gap-2 h-8 items-center ${
-                      isDisabled && "opacity-40"
-                    }`}
-                    onClick={() => toggleFilter("levels", level)}
-                  >
-                    <Checkbox
-                      checked={isChecked}
-                      disabled={isDisabled}
-                      readOnly
-                    />
-                    <span>{toRoman(level)}</span>
-                  </div>
-                );
-              })}
+                  return (
+                    <div
+                      key={`${level}-level-checkbox`}
+                      className={`flex gap-2 h-8 items-center ${
+                        isDisabled && "opacity-40"
+                      }`}
+                      onClick={() => toggleFilter("levels", level)}
+                    >
+                      <Checkbox
+                        checked={isChecked}
+                        disabled={isDisabled}
+                        readOnly
+                      />
+                      <span>{toRoman(level)}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-          <Divider />
-          <div className="flex flex-col gap-3 px-10 py-6">
-            <h3 className="font-bold text-base tracking-[0.5px]">Класс</h3>
-            <div className="flex flex-col gap-1">
-              {types.map((type) => {
-                const isChecked = selectedFilters["types"].includes(type);
-                const isDisabled = !availableOptions.types?.has(type);
+            <Divider />
+            <div className="flex flex-col gap-3 px-10 py-6">
+              <h3 className="font-bold text-base tracking-[0.5px]">Класс</h3>
+              <div className="flex flex-col gap-1">
+                {types.map((type) => {
+                  const isChecked = selectedFilters["types"].includes(type);
+                  const isDisabled = !availableOptions.types?.has(type);
 
-                return (
-                  <div
-                    key={`${type}-type-checkbox`}
-                    className={`flex gap-2 h-8 items-center ${
-                      isDisabled && "opacity-40"
-                    }`}
-                    onClick={() => toggleFilter("types", type)}
-                  >
-                    <Checkbox checked={isChecked} readOnly />
-                    <Icon icon={type as IconType} />
-                  </div>
-                );
-              })}
+                  return (
+                    <div
+                      key={`${type}-type-checkbox`}
+                      className={`flex gap-2 h-8 items-center ${
+                        isDisabled && "opacity-40"
+                      }`}
+                      onClick={() => toggleFilter("types", type)}
+                    >
+                      <Checkbox checked={isChecked} readOnly />
+                      <Icon icon={type as IconType} />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-          <Divider />
-          <div className="flex flex-col gap-3 px-10 py-6">
-            <h3 className="font-bold text-base tracking-[0.5px]">Нация</h3>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-1">
-              {flags.map((nation) => {
-                const isChecked = selectedFilters["nations"].includes(nation);
-                const isDisabled = !availableOptions.nations?.has(nation);
-                return (
-                  <div
-                    key={`${nation}-nation-checkbox`}
-                    className={`flex gap-2 h-8 items-center ${
-                      isDisabled && "opacity-40"
-                    }`}
-                    onClick={() => toggleFilter("nations", nation)}
-                  >
-                    <Checkbox checked={isChecked} readOnly />
-                    <Icon icon={nation as IconType} className="h-4" />
-                  </div>
-                );
-              })}
+            <Divider />
+            <div className="flex flex-col gap-3 px-10 py-6">
+              <h3 className="font-bold text-base tracking-[0.5px]">Нация</h3>
+              <div className="grid grid-cols-2 gap-x-8 gap-y-1">
+                {flags.map((nation) => {
+                  const isChecked = selectedFilters["nations"].includes(nation);
+                  const isDisabled = !availableOptions.nations?.has(nation);
+                  return (
+                    <div
+                      key={`${nation}-nation-checkbox`}
+                      className={`flex gap-2 h-8 items-center ${
+                        isDisabled && "opacity-40"
+                      }`}
+                      onClick={() => toggleFilter("nations", nation)}
+                    >
+                      <Checkbox checked={isChecked} readOnly />
+                      <Icon icon={nation as IconType} className="h-4" />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
