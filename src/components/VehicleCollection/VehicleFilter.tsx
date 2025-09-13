@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import type { VehicleList } from "../../utils/queryTypes";
 import Icon, { type IconType } from "../Icon/Icon";
 import Checkbox from "../Checkbox/Checkbox";
@@ -16,11 +16,6 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
     types: [],
     nations: [],
   });
-  const [availableOptions, setAvailableOptions] = useState({
-    levels: new Set<number>(),
-    types: new Set<string>(),
-    nations: new Set<string>(),
-  });
 
   const toggleFilter = (
     key: keyof typeof selectedFilters,
@@ -37,59 +32,49 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
     });
   };
 
-  const filteredData = data.vehicles.filter((vehicle) => {
-    const matchesLevel =
-      selectedFilters.levels.length === 0 ||
-      selectedFilters["levels"].includes(vehicle.level);
-    const matchesType =
-      selectedFilters.types.length === 0 ||
-      selectedFilters["types"].includes(vehicle.type.name);
-    const matchesNation =
-      selectedFilters.nations.length === 0 ||
-      selectedFilters["nations"].includes(vehicle.nation.name);
+  const filteredData = useMemo(
+    () =>
+      data.vehicles.filter((vehicle) => {
+        const matchesLevel =
+          selectedFilters.levels.length === 0 ||
+          selectedFilters["levels"].includes(vehicle.level);
+        const matchesType =
+          selectedFilters.types.length === 0 ||
+          selectedFilters["types"].includes(vehicle.type.name);
+        const matchesNation =
+          selectedFilters.nations.length === 0 ||
+          selectedFilters["nations"].includes(vehicle.nation.name);
 
-    return matchesLevel && matchesType && matchesNation;
-  });
-
-  // Set of available levels. Can grey out unavailable options with .has(value)
-  const updateAvailableOptions = useCallback(
-    (key: keyof typeof availableOptions) => {
-      const set = new Set<number | string | undefined>(
-        data.vehicles
-          .filter((vehicle) => {
-            const matchesLevel =
-              selectedFilters.levels.length === 0 ||
-              selectedFilters["levels"].includes(vehicle.level);
-            const matchesType =
-              selectedFilters.types.length === 0 ||
-              selectedFilters["types"].includes(vehicle.type.name);
-            const matchesNation =
-              selectedFilters.nations.length === 0 ||
-              selectedFilters["nations"].includes(vehicle.nation.name);
-
-            if (key == "levels") return matchesType && matchesNation;
-            if (key == "types") return matchesLevel && matchesNation;
-            if (key == "nations") return matchesLevel && matchesType;
-          })
-          .map((vehicle) => {
-            if (key == "levels") return vehicle.level;
-            if (key == "types") return vehicle.type.name;
-            if (key == "nations") return vehicle.nation.name;
-          })
-      );
-
-      setAvailableOptions((prev) => ({ ...prev, [key]: set }));
-    },
+        return matchesLevel && matchesType && matchesNation;
+      }),
     [data.vehicles, selectedFilters]
   );
 
-  useEffect(() => {
-    updateAvailableOptions("levels");
-    updateAvailableOptions("types");
-    updateAvailableOptions("nations");
+  const availableOptions = useMemo(() => {
+    const result = {
+      levels: new Set<number>(),
+      types: new Set<string>(),
+      nations: new Set<string>(),
+    };
 
-    // console.log(availableOptions);
-  }, [updateAvailableOptions]);
+    data.vehicles.forEach((vehicle) => {
+      const matchesLevel =
+        selectedFilters.levels.length === 0 ||
+        selectedFilters.levels.includes(vehicle.level);
+      const matchesType =
+        selectedFilters.types.length === 0 ||
+        selectedFilters.types.includes(vehicle.type.name);
+      const matchesNation =
+        selectedFilters.nations.length === 0 ||
+        selectedFilters.nations.includes(vehicle.nation.name);
+
+      if (matchesType && matchesNation) result.levels.add(vehicle.level);
+      if (matchesLevel && matchesNation) result.types.add(vehicle.type.name);
+      if (matchesLevel && matchesType) result.nations.add(vehicle.nation.name);
+    });
+
+    return result;
+  }, [data.vehicles, selectedFilters]);
 
   console.log(filteredData);
 
@@ -102,32 +87,31 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
     [data.vehicles]
   );
 
-  const typeOrder = {
-    submarine: 1,
-    destroyer: 2,
-    cruiser: 3,
-    battleship: 4,
-    aircarrier: 5,
-    default: Number.MAX_VALUE,
-  };
-  const types = useMemo(
-    () =>
-      [...new Set(data.vehicles.map((vehicle) => vehicle.type.name))].sort(
-        (a, b) =>
-          ((typeOrder as Record<string, number>)[a] || typeOrder.default) -
-          ((typeOrder as Record<string, number>)[b] || typeOrder.default)
-            ? 1
-            : 0
-      ),
-    [data.vehicles]
-  );
+  const types = useMemo(() => {
+    const typeOrder = {
+      submarine: 1,
+      destroyer: 2,
+      cruiser: 3,
+      battleship: 4,
+      aircarrier: 5,
+      default: Number.MAX_VALUE,
+    };
+
+    return [...new Set(data.vehicles.map((vehicle) => vehicle.type.name))].sort(
+      (a, b) =>
+        ((typeOrder as Record<string, number>)[a] || typeOrder.default) -
+        ((typeOrder as Record<string, number>)[b] || typeOrder.default)
+          ? 1
+          : 0
+    );
+  }, [data.vehicles]);
 
   const flags = useMemo(
     () => [...new Set(data.vehicles.map((vehicle) => vehicle.nation.name))],
     [data.vehicles]
   );
 
-  const divider = (
+  const Divider = () => (
     <div className="flex self-stretch w-max">
       <div className="w-[1px] bg-white opacity-10" />
       <div className="w-[1px] bg-[rgba(4,18,40,0.6)]" />
@@ -178,7 +162,7 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
               })}
             </div>
           </div>
-          {divider}
+          <Divider />
           <div className="flex flex-col gap-3 px-10 py-6">
             <h3 className="font-bold text-base tracking-[0.5px]">Класс</h3>
             <div className="flex flex-col gap-1">
@@ -201,7 +185,7 @@ const VehicleFilter = ({ data }: VehicleFilterProps) => {
               })}
             </div>
           </div>
-          {divider}
+          <Divider />
           <div className="flex flex-col gap-3 px-10 py-6">
             <h3 className="font-bold text-base tracking-[0.5px]">Нация</h3>
             <div className="grid grid-cols-2 gap-x-8 gap-y-1">
