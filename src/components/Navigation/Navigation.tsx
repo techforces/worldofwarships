@@ -1,5 +1,21 @@
+import {
+  useState,
+  useMemo,
+  useDeferredValue,
+  useRef,
+  useCallback,
+  useEffect,
+  type ChangeEvent,
+} from "react";
 import Icon, { type IconType } from "../Icon/Icon";
 import "./navigation.css";
+import type { VehicleList } from "../../utils/queryTypes";
+import { toRoman } from "../../utils/utils";
+
+interface NavigationProps {
+  data: VehicleList;
+  setItemIndex: (index: number) => void;
+}
 
 interface ResourceItemProps {
   value: number | string;
@@ -8,7 +24,49 @@ interface ResourceItemProps {
   color?: string;
 }
 
-const Navigation = () => {
+const Navigation = ({ data, setItemIndex }: NavigationProps) => {
+  const [query, setQuery] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const inputContainerRef = useRef<HTMLDivElement | null>(null);
+  const deferredQuery = useDeferredValue(query);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
+
+  const filtered = useMemo(() => {
+    const q = deferredQuery.trim().toLocaleLowerCase();
+    if (!q) return null;
+    return data.vehicles.filter((vehicle) =>
+      vehicle.title.toLocaleLowerCase().includes(q)
+    );
+  }, [data, deferredQuery]);
+
+  const handleSearchClick = (title: string) => {
+    const originalIndex = data.vehicles.findIndex(
+      (vehicle) => vehicle.title == title
+    );
+
+    setItemIndex(originalIndex);
+  };
+
+  const closeSearch = useCallback(
+    (e: MouseEvent) => {
+      if (
+        isOpen &&
+        inputContainerRef.current &&
+        !inputContainerRef.current?.contains(e.target)
+      ) {
+        setIsOpen(false);
+      }
+    },
+    [inputContainerRef, isOpen]
+  );
+
+  useEffect(() => {
+    document.addEventListener("mousedown", closeSearch);
+  }, [closeSearch]);
+
   const ResourceItem = ({ value, icon, label, color }: ResourceItemProps) => (
     <div className="flex flex-col">
       <div className="flex items-center gap-[2px]">
@@ -24,15 +82,50 @@ const Navigation = () => {
     </div>
   );
 
+  const SearchResult = () => (
+    <div className="absolute top-[100%] left-0 w-full min-h-0 overflow-y-auto max-h-[min(30rem,70vh)] bg-[rgba(255,255,255,0.05)] backdrop-blur-2xl justify-center z-2">
+      {filtered && filtered.length != 0 && isOpen ? (
+        <>
+          {filtered.map((vehicle, index) => (
+            <button
+              key={`${index}-filtered-vehicle-idx`}
+              onClick={() => {
+                handleSearchClick(vehicle.title);
+              }}
+              className="flex w-full items-center px-4 py-2 gap-2"
+            >
+              <Icon icon={vehicle.nation.name as IconType} />
+              <span className="w-6 text-center">{toRoman(vehicle.level)}</span>
+              <span className="uppercase">{vehicle.title}</span>
+              <Icon icon={vehicle.type.name as IconType} />
+            </button>
+          ))}
+        </>
+      ) : (
+        <>
+          {query != "" && isOpen && (
+            <span className="block text-sm p-4">Ничего не найдено</span>
+          )}
+        </>
+      )}
+    </div>
+  );
+
   return (
     <div className="w-full h-[3.75rem] bg-[rgba(0,20,56,0.75)] shrink-0 pl-[22.75rem] pr-[4rem] flex items-center justify-between">
       <div className="flex gap-5 items-center">
-        <div className="search-input relative">
+        <div
+          ref={inputContainerRef}
+          onClick={() => setIsOpen(true)}
+          className="search-input relative"
+        >
           <input
+            onChange={handleChange}
             type="text"
             placeholder="Поиск по названию"
             className="h-[1.875rem] w-[22rem] pl-9 pr-2 border focus:outline-none border-[#172439] focus:border-[rgba(255,255,255,0.45)] hover:border-[rgba(255,255,255,0.45)] bg-[#041228] text-sm"
           />
+          <SearchResult />
         </div>
         <Icon icon="volume" className="w-6 h-6" />
       </div>

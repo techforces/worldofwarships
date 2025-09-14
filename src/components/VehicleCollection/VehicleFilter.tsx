@@ -141,7 +141,7 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
 
   useEffect(() => {
     document.addEventListener("mousedown", closeFilter);
-  }, [filterContainerRef.current, isOpen]);
+  }, [closeFilter]);
 
   const areFiltersEmpty = useMemo(() => {
     return (
