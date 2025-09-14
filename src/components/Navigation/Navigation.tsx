@@ -15,6 +15,8 @@ import { toRoman } from "../../utils/utils";
 interface NavigationProps {
   data: VehicleList;
   setItemIndex: (index: number) => void;
+  mobileSidebarOpen: boolean;
+  setMobileSidebarOpen: (val: boolean) => void;
 }
 
 interface ResourceItemProps {
@@ -24,7 +26,12 @@ interface ResourceItemProps {
   color?: string;
 }
 
-const Navigation = ({ data, setItemIndex }: NavigationProps) => {
+const Navigation = ({
+  data,
+  setItemIndex,
+  mobileSidebarOpen,
+  setMobileSidebarOpen,
+}: NavigationProps) => {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const inputContainerRef = useRef<HTMLDivElement | null>(null);
@@ -68,17 +75,19 @@ const Navigation = ({ data, setItemIndex }: NavigationProps) => {
   }, [closeSearch]);
 
   const ResourceItem = ({ value, icon, label, color }: ResourceItemProps) => (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <div className="flex items-center gap-[2px]">
         <span
           style={{ color }}
-          className={`text-base leading-[100%] font-bold`}
+          className={`text-base leading-[100%] font-bold hidden lg:block`}
         >
           {value}
         </span>
-        <Icon icon={icon} className="w-4 h-4" />
+        <Icon icon={icon} className="w-4 h-4 shrink-0 " />
       </div>
-      <span className="text-xs font-normal opacity-75 w-max">{label}</span>
+      <span className="text-xs font-normal opacity-75 w-max hidden xl:block">
+        {label}
+      </span>
     </div>
   );
 
@@ -113,25 +122,33 @@ const Navigation = ({ data, setItemIndex }: NavigationProps) => {
 
   return (
     <div className="bg-[rgba(0,20,56,0.75)] flex justify-center w-full">
-      <div className="w-full h-[3.75rem] max-w-[120rem] shrink-0 pl-[22.75rem] pr-[4rem] flex items-center justify-between">
-        <div className="flex gap-5 items-center">
+      <div className="w-full h-[3.75rem] max-w-[120rem] shrink-0 gap-5 pl-[1.25rem] md:pl-[15rem] lg:pl-[17.625rem] xl:pl-[22.75rem] pr-[1.25rem] lg:pr-[2rem] xl:pr-[4rem] flex items-center justify-between">
+        <button
+          className="md:hidden"
+          onClick={() => {
+            setMobileSidebarOpen(!mobileSidebarOpen);
+          }}
+        >
+          <Icon icon="hamburger" />
+        </button>
+        <div className="flex gap-5 items-center w-full md:w-max ">
           <div
             ref={inputContainerRef}
             onClick={() => setIsOpen(true)}
-            className="search-input relative"
+            className="search-input relative w-full "
           >
             <input
               onChange={handleChange}
               type="text"
               placeholder="Поиск по названию"
-              className="h-[1.875rem] w-[22rem] pl-9 pr-2 border focus:outline-none border-[#172439] focus:border-[rgba(255,255,255,0.45)] hover:border-[rgba(255,255,255,0.45)] bg-[#041228] text-sm"
+              className="h-[1.875rem] w-full md:w-[22rem] pl-9 pr-2 border focus:outline-none border-[#172439] focus:border-[rgba(255,255,255,0.45)] hover:border-[rgba(255,255,255,0.45)] bg-[#041228] text-sm"
             />
             <SearchResult />
           </div>
           <Icon icon="volume" className="w-6 h-6" />
         </div>
 
-        <div className="flex gap-5">
+        <div className="hidden sm:flex gap-2 xl:gap-5">
           <ResourceItem value={900} icon="coal" label="Уголь" />
           <ResourceItem value={200} icon="steel" label="Сталь" />
           <ResourceItem

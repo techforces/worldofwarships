@@ -33,53 +33,18 @@ const VehicleView = ({ data, setItemIndex }: VehicleViewProps) => {
       onLoad={() => setIsLoaded(true)}
       className="fixed top-0 left-0 h-full w-full z-100 bg-[rgba(10,18,24,0.4)] backdrop-blur-2xl"
     >
-      <div className="absolute top-1/2 left-1/2 -translate-1/2 max-w-[120rem] w-full h-full max-h-[100vh] px-[10rem] py-[7.5vh] flex flex-col justify-between items-center gap-15">
+      <div className="absolute top-1/2 left-1/2 -translate-1/2 max-w-[120rem] w-full h-full max-h-[100vh] px-0 lg:px-[6rem] xl:px-[10rem] py-[5vh] sm:py-[7.5vh] flex flex-col justify-between items-center gap-15 lg:gap-15">
         <h1
-          className={`tracking-[1px] leading-[100%] uppercase font-bold text-[4rem] ${
+          className={`tracking-[1px] leading-[100%] uppercase font-bold text-4xl xl:text-6xl ${
             isLoaded ? "opacity-100" : "opacity-0"
           } duration-500 delay-100`}
         >
           O Корабле
         </h1>
 
-        <div className="w-full flex gap-10 items-center h-max min-h-0">
-          <div className="w-full flex flex-col min-h-0 h-full">
-            <div className="flex gap-3 items-center">
-              <h2
-                className={`tracking-[1px] uppercase font-bold text-5xl w-max ${
-                  isLoaded ? "opacity-100" : "opacity-0"
-                } duration-500 delay-200`}
-              >
-                {data.title}
-              </h2>
-              <LazyImage
-                src={data.type.icons.default}
-                className={`w-[6.5rem] object-contain ${
-                  isLoaded ? "opacity-100" : "opacity-0"
-                } duration-500 delay-200`}
-                alt=""
-              />
-            </div>
-            <p
-              className={`text-xl h-max ${
-                isLoaded ? "opacity-75" : "opacity-0"
-              } duration-500 delay-300`}
-            >
-              {data.type.title} {toRoman(data.level)} уровня
-            </p>
-            <div
-              className={`mt-12 flex-1 overflow-y-auto pr-4 shrink ${
-                isLoaded ? "opacity-100" : "opacity-0"
-              } duration-500 delay-400 max-h-max flex flex-col gap-2`}
-            >
-              {/* <p className="text-xl min-h-0 h-max max-h-full leading-[165%] shrink">
-                {data.description}
-              </p> */}
-              {parseDescription(data.description)}
-            </div>
-          </div>
+        <div className="w-full flex flex-col lg:flex-row-reverse gap-10 items-center h-max min-h-0 overflow-y-auto lg:overflow-y-visible px-[1.25rem] sm:px-[2.5rem] lg:px-0">
           <div
-            className={`w-[50%] h-full relative shrink-0 ${
+            className={`w-full h-auto aspect-video lg:aspect-auto lg:w-[50%] lg:h-full relative shrink-0 ${
               isLoaded ? "opacity-100" : "opacity-0"
             } duration-500 delay-500`}
           >
@@ -94,6 +59,38 @@ const VehicleView = ({ data, setItemIndex }: VehicleViewProps) => {
               src={data.icons.large}
               alt=""
             />
+          </div>
+          <div className="w-full flex flex-col lg:min-h-0 h-max lg:h-full">
+            <div className="flex gap-3 items-center justify-center lg:justify-start">
+              <h2
+                className={`tracking-[1px] uppercase font-bold text-4xl xl:text-5xl w-max ${
+                  isLoaded ? "opacity-100" : "opacity-0"
+                } duration-500 delay-200`}
+              >
+                {data.title}
+              </h2>
+              <LazyImage
+                src={data.type.icons.default}
+                className={`w-[5rem] lg:w-[6.5rem] object-contain ${
+                  isLoaded ? "opacity-100" : "opacity-0"
+                } duration-500 delay-200`}
+                alt=""
+              />
+            </div>
+            <p
+              className={`text-xl h-max ${
+                isLoaded ? "opacity-75" : "opacity-0"
+              } duration-500 delay-300 text-center lg:text-left`}
+            >
+              {data.type.title} {toRoman(data.level)} уровня
+            </p>
+            <div
+              className={`mt-12 flex-1 lg:overflow-y-auto pr-4 lg:shrink ${
+                isLoaded ? "opacity-100" : "opacity-0"
+              } duration-500 delay-400 h-max lg:max-h-max flex flex-col gap-2`}
+            >
+              {parseDescription(data.description)}
+            </div>
           </div>
         </div>
 

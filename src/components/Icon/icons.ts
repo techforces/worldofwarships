@@ -10,6 +10,7 @@ const defaultIcons = {
   steel: "/icons/steel.svg",
   volume: "/icons/volume.svg",
   wallet: "/icons/wallet.svg",
+  hamburger: "/icons/hamburger.svg",
 };
 
 const sidebarIcons = {

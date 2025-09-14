@@ -120,10 +120,10 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
   );
 
   const Divider = () => (
-    <div className="flex self-stretch w-max">
-      <div className="w-[1px] bg-white opacity-10" />
-      <div className="w-[1px] bg-[rgba(4,18,40,0.6)]" />
-      <div className="w-[1px] bg-white opacity-10" />
+    <div className="flex flex-col sm:flex-row self-stretch w-full sm:w-max">
+      <div className="h-[1px] sm:h-full w-full sm:w-[1px] bg-white opacity-10" />
+      <div className="h-[1px] sm:h-full w-full sm:w-[1px] bg-[rgba(4,18,40,0.6)]" />
+      <div className="h-[1px] sm:h-full w-full sm:w-[1px] bg-white opacity-10" />
     </div>
   );
 
@@ -229,7 +229,7 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
           ref={filterContainerRef}
           className="absolute left-0 top-[100%] w-full h-max backdrop-blur-2xl"
         >
-          <div className="w-full h-10 bg-[rgba(255,255,255,0.15)] flex items-center px-4 gap-6">
+          <div className="w-full h-10 bg-[rgba(255,255,255,0.15)] flex items-center px-5 gap-6">
             <h2 className="font-bold text-base tracking-[0.7px]">Фильтры</h2>
 
             {!areFiltersEmpty && (
@@ -241,10 +241,10 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
               </button>
             )}
           </div>
-          <div className="w-full h-[100%] bg-[rgba(255,255,255,0.05)] flex gap-3">
-            <div className="flex flex-col gap-3 px-10 py-6">
+          <div className="w-full h-[100%] bg-[rgba(255,255,255,0.05)] flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col gap-3 px-5 py-4 sm:px-10 sm:py-6">
               <h3 className="font-bold text-base tracking-[0.5px]">Уровень</h3>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-row flex-wrap gap-4 sm:flex-col sm:gap-1">
                 {levels.map((level: number) => {
                   const isChecked = selectedFilters["levels"].includes(level);
                   const isDisabled = !availableOptions.levels?.has(level);
@@ -271,9 +271,9 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
               </div>
             </div>
             <Divider />
-            <div className="flex flex-col gap-3 px-10 py-6">
+            <div className="flex flex-col gap-3 px-5 py-4 sm:px-10 sm:py-6">
               <h3 className="font-bold text-base tracking-[0.5px]">Класс</h3>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-row flex-wrap gap-4 sm:flex-col sm:gap-1">
                 {types.map((type) => {
                   const isChecked = selectedFilters["types"].includes(type);
                   const isDisabled = !availableOptions.types?.has(type);
@@ -300,9 +300,9 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
               </div>
             </div>
             <Divider />
-            <div className="flex flex-col gap-3 px-10 py-6">
+            <div className="flex flex-col gap-3 px-5 py-4 sm:px-10 sm:py-6">
               <h3 className="font-bold text-base tracking-[0.5px]">Нация</h3>
-              <div className="grid grid-cols-2 gap-x-8 gap-y-1">
+              <div className="flex flex-row flex-wrap gap-4 sm:grid sm:grid-cols-2 sm:gap-x-8 sm:gap-y-1">
                 {flags.map((nation) => {
                   const isChecked = selectedFilters["nations"].includes(nation);
                   const isDisabled = !availableOptions.nations?.has(nation);

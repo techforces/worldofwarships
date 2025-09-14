@@ -33,8 +33,8 @@ const VehicleCollection = ({
   useEffect(() => setScrollbarWidth(), []);
 
   return (
-    <div className="flex flex-col w-full h-full pl-[4rem] pt-[1.5rem]">
-      <div className="flex flex-col w-full h-max pr-[4rem] gap-4">
+    <div className="flex flex-col w-full h-full pl-[1.25rem] lg:pl-[2rem] xl:pl-[4rem] pt-[1.5rem]">
+      <div className="flex flex-col w-full h-max pr-[1.25rem] lg:pr-[2rem] xl:pr-[4rem] gap-4">
         <h1 className="tracking-[1.4px] text-3xl uppercase font-bold">
           Корабли
         </h1>
@@ -43,7 +43,7 @@ const VehicleCollection = ({
 
       <div
         ref={vehicleListContainer}
-        className="vc-container w-full h-full box-border pt-4 pb-10 pr-[4rem] grid grid-cols-3 gap-5 overflow-y-scroll relative"
+        className="vc-container vc-vontainer--lg bg-moon vc-container--xl w-full h-full box-border pt-4 pb-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 overflow-y-scroll relative"
       >
         {filteredData.map((vehicle: Vehicle, index: number) => (
           <VehicleItem
