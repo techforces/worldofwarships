@@ -12,6 +12,7 @@ import Loader from "./components/Loader/Loader";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 
 import "./App.css";
+import Cursor from "./components/Cursor/Cursor";
 
 function App() {
   const { data, loading, error } = useQuery(GET_WARSHIPS);
@@ -26,7 +27,8 @@ function App() {
 
   return (
     <>
-      <div className="background w-full h-[100vh] flex flex-col items-center bg-[rgba(0,0,0,0.2)]">
+      <div className="background w-full h-[100vh] flex flex-col items-center bg-[rgba(0,0,0,0.2)] relative overflow-hidden">
+        <Cursor />
         {data && (
           <Navigation
             data={data}

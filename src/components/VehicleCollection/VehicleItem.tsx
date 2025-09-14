@@ -2,8 +2,8 @@ import { useState } from "react";
 import type { Vehicle } from "../../utils/queryTypes";
 import { toRoman } from "../../utils/utils";
 import Button from "../Button/Button";
-import "./vehicleItem.css";
 import LazyImage from "../LazyImage/LazyImage";
+import "./vehicleItem.css";
 
 interface VehicleItemProps {
   data: Vehicle;

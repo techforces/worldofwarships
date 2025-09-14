@@ -10,6 +10,7 @@ body {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: rgba(97, 125, 168, 0.5) transparent;
+  cursor: none;
 }
 
 /* *::-webkit-scrollbar {
