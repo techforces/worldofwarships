@@ -59,7 +59,7 @@ const SidebarButton = ({
         <button
           onMouseOver={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className={`relative w-full h-[3rem] flex duration-200 ${
+          className={`relative w-full h-[3rem] flex duration-200 overflow-hidden ${
             isHovered ? "pl-[1.5rem]" : "pl-[1rem]"
           }`}
         >

@@ -25,26 +25,28 @@ function App() {
 
   return (
     <>
-      <div className="background w-full h-[100vh] flex flex-col">
+      <div className="background w-full h-[100vh] flex flex-col items-center bg-[rgba(0,0,0,0.2)]">
         {data && <Navigation data={data} setItemIndex={setItemIndex} />}
-        <div className="flex h-full min-h-0 w-full bg-[rgba(0,0,0,0.2)]">
-          <Sidebar />
-          {data && filteredData && (
-            <VehicleCollection
-              data={data}
-              filteredData={filteredData}
-              setFilteredData={setFilteredData}
+        <div className="flex h-full min-h-0 w-full max-w-[120rem] ">
+          <div className="flex w-full ">
+            <Sidebar />
+            {data && filteredData && (
+              <VehicleCollection
+                data={data}
+                filteredData={filteredData}
+                setFilteredData={setFilteredData}
+                setItemIndex={setItemIndex}
+              />
+            )}
+          </div>
+
+          {itemIndex != null && filteredData && (
+            <VehicleView
+              data={filteredData[itemIndex]}
               setItemIndex={setItemIndex}
             />
           )}
         </div>
-
-        {itemIndex != null && filteredData && (
-          <VehicleView
-            data={filteredData[itemIndex]}
-            setItemIndex={setItemIndex}
-          />
-        )}
       </div>
     </>
   );
