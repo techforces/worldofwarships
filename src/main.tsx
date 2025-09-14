@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
 
-import "./index.css";
 import App from "./App.tsx";
+import "./index.css";
 
 const link = new HttpLink({
   uri: "https://vortex.korabli.su/api/graphql/glossary/",

@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client/react";
+
 import { GET_WARSHIPS } from "./utils/query";
+import type { Vehicle } from "./utils/queryTypes";
+
 import Navigation from "./components/Navigation/Navigation";
 import Sidebar from "./components/Sidebar/Sidebar";
 import VehicleCollection from "./components/VehicleCollection/VehicleCollection";
 import VehicleView from "./components/VehicleCollection/VehicleView";
-import type { Vehicle } from "./utils/queryTypes";
+import Loader from "./components/Loader/Loader";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
+
 import "./App.css";
 
 function App() {
@@ -15,8 +20,8 @@ function App() {
 
   useEffect(() => setFilteredData(data?.vehicles as Vehicle[]), [data]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (loading) return <Loader />;
+  if (error) return <ErrorPage message={error.message} />;
 
   return (
     <>
