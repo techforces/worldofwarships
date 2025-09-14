@@ -13,12 +13,16 @@ interface VehicleFilterProps {
 const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
   const filterContainerRef = useRef(null);
   const filterButtonRef = useRef(null);
+  const sortContainerRef = useRef(null);
+  const sortButtonRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState({
     levels: [],
     types: [],
     nations: [],
   });
+  const [sortIsOpen, setSortIsOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<"default" | "title">("default");
 
   const toggleFilter = (
     key: keyof typeof selectedFilters,
@@ -35,23 +39,26 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
     });
   };
 
-  const filteredData = useMemo(
-    () =>
-      data.vehicles.filter((vehicle) => {
-        const matchesLevel =
-          selectedFilters.levels.length === 0 ||
-          selectedFilters["levels"].includes(vehicle.level);
-        const matchesType =
-          selectedFilters.types.length === 0 ||
-          selectedFilters["types"].includes(vehicle.type.name);
-        const matchesNation =
-          selectedFilters.nations.length === 0 ||
-          selectedFilters["nations"].includes(vehicle.nation.name);
+  const filteredData = useMemo(() => {
+    const filtered = data.vehicles.filter((vehicle) => {
+      const matchesLevel =
+        selectedFilters.levels.length === 0 ||
+        selectedFilters["levels"].includes(vehicle.level);
+      const matchesType =
+        selectedFilters.types.length === 0 ||
+        selectedFilters["types"].includes(vehicle.type.name);
+      const matchesNation =
+        selectedFilters.nations.length === 0 ||
+        selectedFilters["nations"].includes(vehicle.nation.name);
+      return matchesLevel && matchesType && matchesNation;
+    });
 
-        return matchesLevel && matchesType && matchesNation;
-      }),
-    [data.vehicles, selectedFilters]
-  );
+    if (sortBy === "title") {
+      return [...filtered].sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    return filtered;
+  }, [data.vehicles, selectedFilters, sortBy]);
 
   const availableOptions = useMemo(() => {
     const result = {
@@ -139,9 +146,24 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
     [filterContainerRef, isOpen]
   );
 
+  const closeSort = useCallback(
+    (e: MouseEvent) => {
+      if (
+        sortIsOpen &&
+        sortContainerRef.current &&
+        !sortContainerRef.current?.contains(e.target) &&
+        e.target != sortButtonRef.current
+      ) {
+        setSortIsOpen(false);
+      }
+    },
+    [sortContainerRef, sortButtonRef, sortIsOpen]
+  );
+
   useEffect(() => {
     document.addEventListener("mousedown", closeFilter);
-  }, [closeFilter]);
+    document.addEventListener("mousedown", closeSort);
+  }, [closeFilter, closeSort]);
 
   const areFiltersEmpty = useMemo(() => {
     return (
@@ -160,21 +182,48 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
   }, [setSelectedFilters]);
 
   return (
-    <div className="vehicle-filter relative w-full h-max flex justify-between p-[0.625rem] z-1">
+    <div className="vehicle-filter relative w-full h-max flex justify-between z-1">
       <button
         ref={filterButtonRef}
         onClick={() => {
           setIsOpen(!isOpen);
         }}
+        className="p-[0.625rem]"
       >
         <Icon icon="filter" className="w-6 h-6 pointer-events-none" />
       </button>
-      <button className="flex gap-2 items-center">
-        <span className="text-base w-max font-normal opacity-75">
-          По умолчанию
-        </span>
-        <Icon icon="arrow" className="w-6 h-6 opacity-75" />
-      </button>
+      <div className="relative h-full">
+        <button
+          ref={sortButtonRef}
+          onClick={() => setSortIsOpen(!sortIsOpen)}
+          className="flex gap-2 items-center h-full"
+        >
+          <span className="text-base w-max font-normal opacity-75 pointer-events-none">
+            {sortBy === "default" ? "По умолчанию" : "По названию"}
+          </span>
+          <Icon
+            icon="arrow"
+            className="w-6 h-6 opacity-75 pointer-events-none"
+          />
+        </button>
+        {sortIsOpen && (
+          <div
+            ref={sortContainerRef}
+            className="absolute right-0 top-[100%] w-40 h-max bg-[rgba(255,255,255,0.05)] backdrop-blur-2xl"
+          >
+            <button onClick={() => setSortBy("default")} className="px-4 py-2">
+              <span className="opacity-75 hover:opacity-100 duration-200">
+                По умолчанию
+              </span>
+            </button>
+            <button onClick={() => setSortBy("title")} className="px-4 py-2">
+              <span className="opacity-75 hover:opacity-100 duration-200">
+                По названию
+              </span>
+            </button>
+          </div>
+        )}
+      </div>
       {isOpen && (
         <div
           ref={filterContainerRef}
