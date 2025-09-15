@@ -14,7 +14,7 @@ const VehicleItem = ({ data, index, setItemIndex }: VehicleItemProps) => {
   return (
     <div
       onClick={() => setItemIndex(index)}
-      className="vehicle-item relative w-full aspect-[4/3] bg-[rgba(4,18,40,0.25)] backdrop-blur-[8px] px-4 flex items-end"
+      className="vehicle-item relative w-full aspect-[4/3] bg-[rgba(4,18,40,0.35)] backdrop-blur-[0.5rem] px-4 flex items-end"
     >
       <div className="vi-background-gradient overflow-hidden w-full h-full absolute top-0 left-0 pointer-events-none"></div>
 

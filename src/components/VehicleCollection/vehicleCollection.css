@@ -6,21 +6,18 @@
   --scrollbar-width: 0px;
 }
 
-.vc-container {
+.vc-container-row {
   padding-right: calc(1.25rem - var(--scrollbar-width));
-  background-color: var(--color-moon);
 }
 
 @media screen and (min-width: 1024px) {
-  .vc-container {
+  .vc-container-row {
     padding-right: calc(2rem - var(--scrollbar-width));
-    background-color: var(--color-moon);
   }
 }
 
 @media screen and (min-width: 1280px) {
-  .vc-container {
+  .vc-container-row {
     padding-right: calc(4rem - var(--scrollbar-width));
-    background-color: var(--color-moon);
   }
 }
