@@ -1,8 +1,8 @@
+import { useCallback, useMemo, useEffect, useState } from "react";
 import type { Vehicle } from "../../utils/queryTypes";
 import { toRoman } from "../../utils/utils";
 import LazyImage from "../LazyImage/LazyImage";
 import Button from "../Button/Button";
-import { useState } from "react";
 
 interface VehicleViewProps {
   data: Vehicle;
@@ -27,6 +27,20 @@ const VehicleView = ({ data, setItemIndex }: VehicleViewProps) => {
     }
     return <p className="text-xl leading-[165%] shrink">{text}</p>;
   };
+
+  const handleEscape = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") setItemIndex(null);
+    },
+    [setItemIndex]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [handleEscape]);
 
   return (
     <div
@@ -99,7 +113,10 @@ const VehicleView = ({ data, setItemIndex }: VehicleViewProps) => {
             isLoaded ? "opacity-100" : "opacity-0"
           } duration-500 delay-700`}
         >
-          <Button handleClick={() => setItemIndex(null)} label={"Закрыть"} />
+          <Button
+            handleClick={() => setItemIndex(null)}
+            label={"Закрыть [ESC]"}
+          />
         </div>
       </div>
     </div>

@@ -24,7 +24,8 @@
   transform: translateY(0%);
 }
 
-.vehicle-item:hover > .vi-background-gradient::after {
+.vehicle-item:hover > .vi-background-gradient::after,
+.vehicle-item:focus > .vi-background-gradient::after {
   transition-duration: 200ms;
   transform: translateY(-25%);
 }
@@ -33,7 +34,8 @@
   transform: translateY(4.5rem);
 }
 
-.vehicle-item:hover .vi-content {
+.vehicle-item:hover .vi-content,
+.vehicle-item:focus .vi-content {
   transform: translateY(0rem);
 }
 
@@ -41,6 +43,7 @@
   opacity: 0;
 }
 
-.vehicle-item:hover .vi-button {
+.vehicle-item:hover .vi-button,
+.vehicle-item:focus .vi-button {
   opacity: 1;
 }

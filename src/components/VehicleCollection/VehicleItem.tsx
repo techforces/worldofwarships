@@ -13,7 +13,11 @@ interface VehicleItemProps {
 const VehicleItem = ({ data, index, setItemIndex }: VehicleItemProps) => {
   return (
     <div
+      tabIndex={1}
       onClick={() => setItemIndex(index)}
+      onKeyUp={(e) => {
+        if (e.key === "Enter") setItemIndex(index);
+      }}
       className="vehicle-item relative w-full aspect-[4/3] bg-[rgba(4,18,40,0.35)] backdrop-blur-[0.5rem] px-4 flex items-end"
     >
       <div className="vi-background-gradient overflow-hidden w-full h-full absolute top-0 left-0 pointer-events-none"></div>
@@ -48,7 +52,7 @@ const VehicleItem = ({ data, index, setItemIndex }: VehicleItemProps) => {
             </p>
           </div>
           <div className={`vi-button duration-800`}>
-            <Button label="О Корабле" />
+            <Button label="О Корабле" tabIndex={-1} />
           </div>
         </div>
       </div>

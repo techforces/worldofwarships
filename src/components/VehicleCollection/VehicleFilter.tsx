@@ -256,6 +256,7 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
 
                   return (
                     <div
+                      tabIndex={1}
                       key={`${level}-level-checkbox`}
                       className={`flex gap-2 h-8 items-center ${
                         isDisabled && "opacity-40"
@@ -263,11 +264,16 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
                       onClick={() => {
                         if (!isDisabled) toggleFilter("levels", level);
                       }}
+                      onKeyUp={(e) => {
+                        if (e.key === "Enter" && !isDisabled)
+                          toggleFilter("levels", level);
+                      }}
                     >
                       <Checkbox
                         checked={isChecked}
                         disabled={isDisabled}
                         readOnly
+                        tabIndex={-1}
                       />
                       <span>{toRoman(level)}</span>
                     </div>
@@ -285,6 +291,7 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
 
                   return (
                     <div
+                      tabIndex={1}
                       key={`${type}-type-checkbox`}
                       className={`flex gap-2 h-8 items-center ${
                         isDisabled && "opacity-40"
@@ -292,11 +299,16 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
                       onClick={() => {
                         if (!isDisabled) toggleFilter("types", type);
                       }}
+                      onKeyUp={(e) => {
+                        if (e.key === "Enter" && !isDisabled)
+                          toggleFilter("types", type);
+                      }}
                     >
                       <Checkbox
                         checked={isChecked}
                         disabled={isDisabled}
                         readOnly
+                        tabIndex={-1}
                       />
                       <Icon icon={type as IconType} />
                     </div>
@@ -313,6 +325,7 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
                   const isDisabled = !availableOptions.nations?.has(nation);
                   return (
                     <div
+                      tabIndex={1}
                       key={`${nation}-nation-checkbox`}
                       className={`flex gap-2 h-8 items-center ${
                         isDisabled && "opacity-40"
@@ -320,11 +333,16 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
                       onClick={() => {
                         if (!isDisabled) toggleFilter("nations", nation);
                       }}
+                      onKeyUp={(e) => {
+                        if (e.key === "Enter" && !isDisabled)
+                          toggleFilter("nations", nation);
+                      }}
                     >
                       <Checkbox
                         checked={isChecked}
                         disabled={isDisabled}
                         readOnly
+                        tabIndex={-1}
                       />
                       <Icon icon={nation as IconType} className="h-4" />
                     </div>

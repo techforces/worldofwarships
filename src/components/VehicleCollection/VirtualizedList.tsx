@@ -84,7 +84,6 @@ const VirtualizedList = ({
       setColumns(1);
     }
 
-    console.log(dummy.current?.getBoundingClientRect().height);
     setRowHeight(getRowHeight() as number);
   };
 
@@ -97,8 +96,6 @@ const VirtualizedList = ({
     setParentRectTop(
       vehicleListContainer.current?.getBoundingClientRect().top as number
     );
-
-    console.log(dummy.current);
 
     return () => {
       window.removeEventListener("resize", calculateColumns);
