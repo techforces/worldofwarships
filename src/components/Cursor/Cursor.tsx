@@ -12,7 +12,6 @@ const Cursor = () => {
 
   useEffect(() => {
     let raf = 0;
-
     const onMove = (e: PointerEvent) => {
       point.current.x = e.pageX;
       point.current.y = e.pageY;
@@ -63,7 +62,7 @@ const Cursor = () => {
       className={`${
         outOfViewport || isTouchscreen ? "hidden" : "fixed"
       } top-0 left-0 w-4 pointer-events-none will-change-transform z-[9999]`}
-      style={{ transform: "translate3d(-50%, -50%, 0)" }}
+      style={{ transform: "translate3d(-100px, -100px, 0)" }}
     />
   );
 };

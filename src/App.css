@@ -10,6 +10,11 @@ body {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: rgba(97, 125, 168, 0.5) transparent;
+}
+
+body:hover,
+button:hover,
+input:hover {
   cursor: none;
 }
 
