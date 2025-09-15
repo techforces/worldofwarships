@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback, memo } from "react";
 import type { Vehicle, VehicleList } from "../../utils/queryTypes";
 import Icon, { type IconType } from "../Icon/Icon";
 import Checkbox from "../Checkbox/Checkbox";
@@ -163,6 +163,11 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
   useEffect(() => {
     document.addEventListener("mousedown", closeFilter);
     document.addEventListener("mousedown", closeSort);
+
+    return () => {
+      document.removeEventListener("mousedown", closeFilter);
+      document.removeEventListener("mousedown", closeSort);
+    };
   }, [closeFilter, closeSort]);
 
   const areFiltersEmpty = useMemo(() => {
@@ -334,4 +339,4 @@ const VehicleFilter = ({ data, setFilteredData }: VehicleFilterProps) => {
   );
 };
 
-export default VehicleFilter;
+export default memo(VehicleFilter);

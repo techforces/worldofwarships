@@ -1,3 +1,4 @@
+import { memo } from "react";
 import "./checkbox.css";
 
 interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -8,4 +9,4 @@ const Checkbox = ({ checked, ...otherProps }: CheckboxProps) => {
   return <input type="checkbox" checked={checked} {...otherProps} />;
 };
 
-export default Checkbox;
+export default memo(Checkbox);

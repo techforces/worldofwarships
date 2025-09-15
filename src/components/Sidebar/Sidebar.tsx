@@ -1,3 +1,4 @@
+import { memo } from "react";
 import SidebarButton from "./SidebarButton";
 
 interface SidebarProps {
@@ -40,4 +41,4 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

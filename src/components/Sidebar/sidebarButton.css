@@ -46,3 +46,59 @@
     rgba(243, 191, 91, 0) 100%
   );
 }
+
+.s-button {
+  padding-left: 1.25rem;
+}
+
+.s-button:hover {
+  padding-left: 1.5rem;
+}
+
+.s-button .s-button--hovered {
+  display: none;
+}
+
+.s-button:hover .s-button--hovered {
+  display: block;
+}
+
+.s-button .s-button-content {
+  opacity: 0.75;
+}
+
+.s-button:hover .s-button-content {
+  opacity: 1;
+}
+
+.s-button--gold {
+  padding-left: 1.25rem;
+}
+
+.s-button--gold:hover {
+  padding-left: 1.5rem;
+}
+
+.s-button--gold .button-sb--gold {
+  transform: translateX(-1rem);
+}
+
+.s-button--gold:hover .button-sb--gold {
+  transform: translateX(0rem);
+}
+
+.s-button--promo {
+  padding-left: 1rem;
+}
+
+.s-button--promo:hover {
+  padding-left: 1.5rem;
+}
+
+.s-button--promo .s-button-image--promo {
+  transform: translateX(-0.5rem);
+}
+
+.s-button--promo:hover .s-button-image--promo {
+  transform: translateX(0rem);
+}

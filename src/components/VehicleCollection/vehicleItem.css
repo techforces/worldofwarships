@@ -28,3 +28,19 @@
   transition-duration: 200ms;
   transform: translateY(-25%);
 }
+
+.vehicle-item .vi-content {
+  transform: translateY(4.5rem);
+}
+
+.vehicle-item:hover .vi-content {
+  transform: translateY(0rem);
+}
+
+.vehicle-item .vi-button {
+  opacity: 0;
+}
+
+.vehicle-item:hover .vi-button {
+  opacity: 1;
+}

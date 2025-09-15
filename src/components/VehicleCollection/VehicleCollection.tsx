@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo } from "react";
 import type { Vehicle, VehicleList } from "../../utils/queryTypes";
 import VehicleFilter from "./VehicleFilter";
 import VehicleItem from "./VehicleItem";
@@ -58,4 +58,4 @@ const VehicleCollection = ({
   );
 };
 
-export default VehicleCollection;
+export default memo(VehicleCollection);

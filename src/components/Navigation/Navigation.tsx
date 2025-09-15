@@ -5,6 +5,7 @@ import {
   useRef,
   useCallback,
   useEffect,
+  memo,
   type ChangeEvent,
 } from "react";
 import Icon, { type IconType } from "../Icon/Icon";
@@ -72,6 +73,8 @@ const Navigation = ({
 
   useEffect(() => {
     document.addEventListener("mousedown", closeSearch);
+
+    return document.removeEventListener("mousedown", closeSearch);
   }, [closeSearch]);
 
   const ResourceItem = ({ value, icon, label, color }: ResourceItemProps) => (
@@ -174,4 +177,4 @@ const Navigation = ({
   );
 };
 
-export default Navigation;
+export default memo(Navigation);

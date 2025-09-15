@@ -1,10 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 
-export default function Cursor() {
+const Cursor = () => {
   const [outOfViewport, setOutOfViewport] = useState(false);
+  const [isTouchscreen, setIsTouchscreen] = useState(false);
   const dotRef = useRef<HTMLImageElement>(null);
   const point = useRef({ x: 0, y: 0 });
   const dirty = useRef(false);
+
+  useEffect(() => {}, [outOfViewport]);
+  useEffect(() => {}, [isTouchscreen]);
 
   useEffect(() => {
     let raf = 0;
@@ -13,6 +17,7 @@ export default function Cursor() {
       point.current.x = e.pageX;
       point.current.y = e.pageY;
       dirty.current = true;
+      checkIfTouchscreen();
     };
 
     const tick = () => {
@@ -22,6 +27,16 @@ export default function Cursor() {
       }
       raf = requestAnimationFrame(tick);
     };
+
+    const checkIfTouchscreen = () => {
+      if (window.matchMedia("(pointer: coarse)").matches) {
+        setIsTouchscreen(true);
+      } else {
+        setIsTouchscreen(false);
+      }
+    };
+
+    checkIfTouchscreen();
 
     const handleChange = (val: boolean) => {
       setOutOfViewport(val);
@@ -46,9 +61,11 @@ export default function Cursor() {
       src="/images/cursor.svg"
       alt=""
       className={`${
-        outOfViewport ? "hidden" : "fixed"
+        outOfViewport || isTouchscreen ? "hidden" : "fixed"
       } top-0 left-0 w-4 pointer-events-none will-change-transform z-[9999]`}
       style={{ transform: "translate3d(-50%, -50%, 0)" }}
     />
   );
-}
+};
+
+export default memo(Cursor);

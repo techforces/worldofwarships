@@ -46,7 +46,7 @@ const VehicleView = ({ data, setItemIndex }: VehicleViewProps) => {
           <div
             className={`w-full h-auto aspect-video lg:aspect-auto lg:w-[50%] lg:h-full relative shrink-0 ${
               isLoaded ? "opacity-100" : "opacity-0"
-            } duration-500 delay-500`}
+            } duration-500 delay-200 lg:delay-500`}
           >
             <LazyImage
               className="absolute right-0 top-1/2 w-full h-auto max-w-[75%] object-contain -translate-y-[70%] aspect-video"
@@ -65,7 +65,7 @@ const VehicleView = ({ data, setItemIndex }: VehicleViewProps) => {
               <h2
                 className={`tracking-[1px] uppercase font-bold text-4xl xl:text-5xl w-max ${
                   isLoaded ? "opacity-100" : "opacity-0"
-                } duration-500 delay-200`}
+                } duration-500 delay-300 lg:delay-200`}
               >
                 {data.title}
               </h2>
@@ -73,21 +73,21 @@ const VehicleView = ({ data, setItemIndex }: VehicleViewProps) => {
                 src={data.type.icons.default}
                 className={`w-[5rem] lg:w-[6.5rem] object-contain ${
                   isLoaded ? "opacity-100" : "opacity-0"
-                } duration-500 delay-200`}
+                } duration-500 delay-300 lg:delay-200`}
                 alt=""
               />
             </div>
             <p
               className={`text-xl h-max ${
                 isLoaded ? "opacity-75" : "opacity-0"
-              } duration-500 delay-300 text-center lg:text-left`}
+              } duration-500 delay-400 lg:delay-300 text-center lg:text-left`}
             >
               {data.type.title} {toRoman(data.level)} уровня
             </p>
             <div
               className={`mt-12 flex-1 lg:overflow-y-auto pr-4 lg:shrink ${
                 isLoaded ? "opacity-100" : "opacity-0"
-              } duration-500 delay-400 h-max lg:max-h-max flex flex-col gap-2`}
+              } duration-500 delay-500 lg:delay-400 h-max lg:max-h-max flex flex-col gap-2`}
             >
               {parseDescription(data.description)}
             </div>

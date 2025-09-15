@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { iconSources } from "./icons";
 
 export type IconType = keyof typeof iconSources;
@@ -18,4 +19,4 @@ const Icon = ({ icon = "featured", className = "" }: IconProps) => {
   );
 };
 
-export default Icon;
+export default memo(Icon);

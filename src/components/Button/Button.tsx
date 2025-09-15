@@ -1,3 +1,4 @@
+import { memo } from "react";
 import "./button.css";
 
 interface ButtonProps {
@@ -18,4 +19,4 @@ const Button = ({ label, handleClick }: ButtonProps) => {
   );
 };
 
-export default Button;
+export default memo(Button);
