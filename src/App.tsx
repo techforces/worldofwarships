@@ -17,6 +17,7 @@ import Cursor from "./components/Cursor/Cursor";
 function App() {
   const { data, loading, error } = useQuery(GET_WARSHIPS);
   const [itemIndex, setItemIndex] = useState<number | null>(null);
+  const [searchIndex, setSarchIndex] = useState<number | null>(null);
   const [filteredData, setFilteredData] = useState<Vehicle[] | null>(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
@@ -32,7 +33,7 @@ function App() {
         {data && (
           <Navigation
             data={data}
-            setItemIndex={setItemIndex}
+            setItemIndex={setSarchIndex}
             mobileSidebarOpen={mobileSidebarOpen}
             setMobileSidebarOpen={setMobileSidebarOpen}
           />
@@ -54,6 +55,12 @@ function App() {
             <VehicleView
               data={filteredData[itemIndex]}
               setItemIndex={setItemIndex}
+            />
+          )}
+          {searchIndex != null && data?.vehicles && (
+            <VehicleView
+              data={data.vehicles[searchIndex]}
+              setItemIndex={setSarchIndex}
             />
           )}
         </div>
